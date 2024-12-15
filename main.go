@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"html"
 	"io"
 	"log"
 	"net/http"
@@ -26,7 +27,7 @@ type jSONyResponse struct {
 
 func getResponse(input string) *jSONyResponse {
 	jdata := &jSONyResponse{}
-	get, err := http.Get(fmt.Sprintf("%sydl?key=%s&q=", domain, os.Getenv("key"))+input)
+	get, err := http.Get(fmt.Sprintf("%sydl?key=%s&q=", domain, os.Getenv("key")) + html.EscapeString(input))
 	if err != nil {
 		log.Println(err)
 		return jdata
