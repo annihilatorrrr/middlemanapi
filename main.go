@@ -26,15 +26,15 @@ type jSONyResponse struct {
 
 func getResponse(input string) *jSONyResponse {
 	jdata := &jSONyResponse{}
-	theurl := fmt.Sprintf("%sydl?key=%s&q=%s", domain, os.Getenv("key"), input)
-	log.Println(theurl)
-	get, err := http.Get(theurl)
+	get, err := http.Get(fmt.Sprintf("%sydl?key=%s&q=%s", domain, os.Getenv("key"), input))
 	if err != nil {
+		log.Println(err)
 		return jdata
 	}
 	defer get.Body.Close()
 	byteee, _ := io.ReadAll(get.Body)
 	_ = json.Unmarshal(byteee, &jdata)
+	log.Println(string(byteee))
 	return jdata
 }
 
