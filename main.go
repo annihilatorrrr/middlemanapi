@@ -26,7 +26,7 @@ type jSONyResponse struct {
 
 func getResponse(input string) *jSONyResponse {
 	jdata := &jSONyResponse{}
-	get, err := http.Get(fmt.Sprintf("%sydl?key=%s&q=%s", domain, os.Getenv("key"), input))
+	get, err := http.Get(fmt.Sprintf("%sydl?key=%s&q=", domain, os.Getenv("key"))+input)
 	if err != nil {
 		log.Println(err)
 		return jdata
@@ -34,7 +34,6 @@ func getResponse(input string) *jSONyResponse {
 	defer get.Body.Close()
 	byteee, _ := io.ReadAll(get.Body)
 	_ = json.Unmarshal(byteee, &jdata)
-	log.Println(string(byteee))
 	return jdata
 }
 
