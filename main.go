@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"html"
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"runtime"
 	"strings"
@@ -27,9 +27,9 @@ type jSONyResponse struct {
 
 func getResponse(input string) *jSONyResponse {
 	jdata := &jSONyResponse{}
-	get, err := http.Get(fmt.Sprintf("%sydl?key=%s&q=", domain, os.Getenv("key")) + html.EscapeString(input))
+	theurl := fmt.Sprintf("%sydl?key=%s&q=", domain, os.Getenv("key")) + url.QueryEscape(strings.TrimSpace(input))
+	get, err := http.Get(theurl)
 	if err != nil {
-		log.Println(err)
 		return jdata
 	}
 	defer get.Body.Close()
